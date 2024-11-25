@@ -1,14 +1,32 @@
 import ImageSlider from "@/app/_components/ImageSlider";
-import { getCar } from "@/app/_lib/data-service";
+import { getCar, getCars } from "@/app/_lib/data-service";
 import { EyeSlashIcon, MapPinIcon, UsersIcon } from "@heroicons/react/24/solid";
 
 export async function generateMetadata({ params }) {
-  const { brand, model } = await getCar(params.carId);
-  return { title: `${brand} ${model}` };
+  const { carId } = await params;
+  const car = await getCar(carId);
+  if (!car) {
+    throw new Error(`Car with ID ${carId} not found`);
+  }
+  const { brand, model } = car;
+  return {
+    title: `${brand} ${model}`,
+  };
+}
+
+export async function generateStaticParams() {
+  const cars = await getCars();
+  const ids = cars.map((car) => ({
+    carId: String(car.id),
+  }));
+
+  return ids;
 }
 
 export default async function Page({ params }) {
-  const car = await getCar(params.carId);
+  const { carId } = await params;
+
+  const car = await getCar(carId);
 
   const {
     id,

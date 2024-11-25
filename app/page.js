@@ -21,12 +21,12 @@ export default function Page() {
         <h1 className="text-8xl text-primary-500 mb-10 tracking-tight font-normal">
           Welcome
         </h1>
-        <a
+        <Link
           href="/cars"
           className="bg-accent-500  px-6 py-4  text-primary-800 text-lg font-semibold hover:bg-accent-600 fade-in transition-all shadow-md hover:shadow-lg "
         >
           Explore our luxury cars
-        </a>
+        </Link>
       </div>
     </main>
   );
