@@ -3,6 +3,7 @@ import { UsersIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 function CarCard({ car }) {
   const {
@@ -51,33 +52,31 @@ function CarCard({ car }) {
 
   return (
     <div className="grid">
-      <div className="relative w-full h-[300px] md:h-[400px] lg:h[500px]">
-        {carImages.length > 0 ? (
-          <>
-            <Image
-              key={currentImageIndex}
-              src={carImages[currentImageIndex]}
-              fill
-              alt={`Car ${brand} ${model}`}
-              className="object-cover w-full h-full fade-in image-transition"
-            />
-            {/* Navigation Buttons */}
-            <button
-              onClick={handlePrev}
-              className="absolute top-1/2 left-2 transform -translate-y-1/2 bg-black/50 text-white px-2 py-1 rounded transition-all duration-300 hover:bg-black"
-            >
-              Prev
-            </button>
-            <button
-              onClick={handleNext}
-              className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-black/50 text-white px-2 py-1 rounded transition-all duration-300 hover:bg-black"
-            >
-              Next
-            </button>
-          </>
-        ) : (
-          <p className="text-center text-primary-600">No images available</p>
-        )}
+      <div className="relative w-full h-[300px] md:h-[400px]">
+        {carImages.map((image, index) => (
+          <Image
+            key={index}
+            src={image}
+            fill
+            alt={`Car ${brand} ${model}`}
+            className={`object-cover w-full h-full absolute top-0 left-0 transition-opacity duration-500 rounded-lg ${
+              index === currentImageIndex ? "opacity-100 z-10" : "opacity-0"
+            }`}
+          />
+        ))}
+        {/* Navigation Buttons */}
+        <button
+          onClick={handlePrev}
+          className="z-20 absolute top-1/2 left-2 transform -translate-y-1/2 bg-black/50 text-white px-2 py-1 rounded transition-all duration-300 hover:bg-black"
+        >
+          <FaChevronLeft className="w-6 h-6" />
+        </button>
+        <button
+          onClick={handleNext}
+          className="z-20 absolute top-1/2 right-2 transform -translate-y-1/2 bg-black/50 text-white px-2 py-1 rounded transition-all duration-300 hover:bg-black"
+        >
+          <FaChevronRight className="w-6 h-6" />
+        </button>
       </div>
       {carImages.length > 1 && (
         <div className="flex justify-center gap-3 mt-4">
@@ -85,7 +84,7 @@ function CarCard({ car }) {
             <button
               key={index}
               onClick={() => handleThumbnailClick(index)}
-              className={`w-16 h-16 border-2 rounded-lg overflow-hidden ${
+              className={`w-16 h-16 border-2 rounded-full overflow-hidden ${
                 index === currentImageIndex
                   ? "border-accent-500"
                   : "border-transparent"
@@ -96,22 +95,22 @@ function CarCard({ car }) {
                 width={64}
                 height={64}
                 alt={`Thumbnail of ${brand} ${model}`}
-                className="object-cover w-full h-full"
+                className="object-cover w-full h-full rounded-full"
               />
             </button>
           ))}
         </div>
       )}
 
-      <div className="flex flex-col justify-between">
+      <div className="flex flex-col justify-between ">
         <div className="pt-5 pb-4 px-7 bg-primary-950">
-          <h3 className="text-accent-500 font-semibold text-2xl mb-3">
+          <h3 className="text-accent-500 font-semibold text-2xl mb-3 text-center ">
             {brand} {model}
           </h3>
 
           <div className="flex gap-3 items-center mb-2">
             <UsersIcon className="h-5 w-5 text-primary-600" />
-            <p className="text-lg text-primary-200">
+            <p className="text-lg text-primary-400">
               For up to <span className="font-bold">{seating_capacity}</span>{" "}
               passengers
             </p>

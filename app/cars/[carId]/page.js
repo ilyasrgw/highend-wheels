@@ -2,6 +2,11 @@ import ImageSlider from "@/app/_components/ImageSlider";
 import { getCar } from "@/app/_lib/data-service";
 import { EyeSlashIcon, MapPinIcon, UsersIcon } from "@heroicons/react/24/solid";
 
+export async function generateMetadata({ params }) {
+  const { brand, model } = await getCar(params.carId);
+  return { title: `${brand} ${model}` };
+}
+
 export default async function Page({ params }) {
   const car = await getCar(params.carId);
 
@@ -28,15 +33,15 @@ export default async function Page({ params }) {
   const carImages = images.length > 0 ? images : [defaultImage];
 
   return (
-    <div className="max-w-4xl mx-auto mt-8 flex flex-col items-center">
+    <div className="max-w-4xl mx-auto mt-2 flex flex-col items-center image-transition ">
       <ImageSlider images={carImages} brand={brand} model={model} />
 
       <div className="mt-6 text-center">
-        <h3 className="text-accent-200 font-black text-5xl mb-5">
+        <h3 className="text-accent-500 font-black text-5xl mb-5">
           {brand} {model}
         </h3>
 
-        <p className="text-lg text-primary-300 mb-6">{description}</p>
+        <p className="text-lg text-primary-400 mb-6">{description}</p>
 
         <ul className="flex flex-col gap-4 mb-6 items-center">
           <li className="flex gap-3 items-center">
@@ -60,9 +65,7 @@ export default async function Page({ params }) {
       </div>
 
       <div>
-        <h2 className="text-4xl font-semibold ">
-          Reserve today. Pay on arrival.
-        </h2>
+        <h2 className="text-4xl font-semibold ">Reserve today.</h2>
       </div>
     </div>
   );

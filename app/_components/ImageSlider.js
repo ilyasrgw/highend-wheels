@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useState } from "react";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 function ImageSlider({ images, brand, model }) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -14,28 +15,32 @@ function ImageSlider({ images, brand, model }) {
   const handleThumbnailClick = (index) => setCurrentImageIndex(index);
 
   return (
-    <div className="w-full  ">
-      <div className="relative w-full h-[400px] ">
-        <Image
-          key={currentImageIndex}
-          src={images[currentImageIndex]}
-          alt={`${brand} ${model}`}
-          fill
-          className="object-cover rounded-md fade-in image-transition"
-        />
+    <div className="w-3/4 mx-auto ">
+      <div className="relative w-full h-[300px] md:h-[400px] ">
+        {images.map((image, index) => (
+          <Image
+            key={index}
+            src={image}
+            fill
+            alt={`Car ${brand} ${model}`}
+            className={`object-cover w-full h-full absolute top-0 left-0 transition-opacity duration-500 rounded-lg ${
+              index === currentImageIndex ? "opacity-100 z-10" : "opacity-0"
+            }`}
+          />
+        ))}
         {images.length > 1 && (
           <>
             <button
               onClick={handlePrev}
-              className="absolute top-1/2 left-2 transform -translate-y-1/2 bg-black/50 text-white px-2 py-1 rounded hover:bg-black transition-all"
+              className="z-20 absolute top-1/2 left-2 transform -translate-y-1/2 bg-black/50 text-white px-2 py-1 rounded hover:bg-black transition-all "
             >
-              Prev
+              <FaChevronLeft className="w-6 h-6" />
             </button>
             <button
               onClick={handleNext}
-              className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-black/50 text-white px-2 py-1 rounded hover:bg-black transition-all"
+              className="z-20 absolute top-1/2 right-2 transform -translate-y-1/2 bg-black/50 text-white px-2 py-1 rounded hover:bg-black transition-all"
             >
-              Next
+              <FaChevronRight className="w-6 h-6" />
             </button>
           </>
         )}
@@ -47,7 +52,7 @@ function ImageSlider({ images, brand, model }) {
             <button
               key={index}
               onClick={() => handleThumbnailClick(index)}
-              className={`w-16 h-16 border-2 rounded-lg overflow-hidden ${
+              className={`w-16 h-16 border-2 rounded-full overflow-hidden ${
                 index === currentImageIndex
                   ? "border-accent-500"
                   : "border-transparent"
@@ -58,7 +63,7 @@ function ImageSlider({ images, brand, model }) {
                 width={64}
                 height={64}
                 alt={`Thumbnail of ${brand} ${model}`}
-                className="object-cover w-full h-full "
+                className="object-cover w-full h-full rounded-full "
               />
             </button>
           ))}

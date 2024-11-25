@@ -1,5 +1,6 @@
 import { eachDayOfInterval } from "date-fns";
 import { supabase } from "./supabase";
+import { notFound } from "next/navigation";
 
 /////////////
 // GET
@@ -16,6 +17,7 @@ export async function getCar(id) {
 
   if (error) {
     console.error(error);
+    notFound();
   }
 
   return data;
@@ -35,13 +37,18 @@ export async function getCarPrice(id) {
   return data;
 }
 
-export const getCars = async function (orderBy = "brand") {
+export const getCars = async function (
+  orderBy = "brand",
+  limit = 4,
+  offset = 0
+) {
   const { data, error } = await supabase
     .from("cars")
     .select(
       "id, brand, model, seating_capacity, price_per_day, availability, description, discount, images"
     )
-    .order(orderBy);
+    .order(orderBy)
+    .range(offset, offset + limit - 1);
 
   if (error) {
     console.error(error);

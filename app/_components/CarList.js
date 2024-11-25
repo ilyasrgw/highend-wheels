@@ -1,16 +1,11 @@
 import CarCard from "./CarCard";
 import { getCars } from "../_lib/data-service";
+import LoadMoreButton from "./LoadMoreButton";
 
 async function CarList() {
-  const cars = await getCars();
-  if (!cars.length) return null;
-  return (
-    <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 xl:gap-14">
-      {cars.map((car) => (
-        <CarCard car={car} key={car.id} />
-      ))}
-    </div>
-  );
+  const initialсars = await getCars("brand", 4, 0);
+
+  return <LoadMoreButton initialсars={initialсars} />;
 }
 
 export default CarList;
