@@ -3,13 +3,18 @@ import { getCars } from "../_lib/data-service";
 import CarList from "../_components/CarList";
 import { Suspense } from "react";
 import Spinner from "../_components/Spinner";
+import Filter from "../_components/Filter";
+
+export const revalidate = 3600;
 
 export const metadata = {
   title: "Cars",
 };
 
-export default function Page() {
-  console.log("Starting...");
+export default async function Page({ searchParams }) {
+  const { seating_capacity } = await searchParams;
+
+  const filter = seating_capacity ?? "all";
 
   return (
     <div>
@@ -22,8 +27,11 @@ export default function Page() {
         Bentley, Lamborghini, Chevrolet, Ferrari, McLaren and many more… Custom
         delivery available.
       </p>
-      <Suspense fallback={<Spinner />}>
-        <CarList />
+      <div className="flex justify-center">
+        <Filter />
+      </div>
+      <Suspense fallback={<Spinner />} key={filter}>
+        <CarList filter={filter} />
       </Suspense>
     </div>
   );

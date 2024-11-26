@@ -3,8 +3,8 @@
 import { useState } from "react";
 import CarCard from "./CarCard";
 
-export default function LoadMoreButton({ initialсars }) {
-  const [cars, setCars] = useState(initialсars);
+export default function LoadMoreButton({ displayedcars, filter }) {
+  const [cars, setCars] = useState(displayedcars);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
 
@@ -12,7 +12,9 @@ export default function LoadMoreButton({ initialсars }) {
     setLoading(true);
 
     try {
-      const res = await fetch(`/api/cars?page=${page + 1}`);
+      const res = await fetch(
+        `/api/cars?page=${page + 1}&seating_capacity=${filter}`
+      );
       const newCars = await res.json();
 
       if (!newCars.length) return;
@@ -27,8 +29,8 @@ export default function LoadMoreButton({ initialсars }) {
   return (
     <div>
       <div className="grid sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-8 mt-6 image-transition">
-        {cars.map((car) => (
-          <CarCard key={car.id} car={car} />
+        {cars.map((car, index) => (
+          <CarCard key={`${car.id}-${index}`} car={car} />
         ))}
       </div>
 

@@ -9,9 +9,9 @@ export const metadata = {
 
 export default function Page() {
   return (
-    <div className="space-y-12 md:space-y-16 px-4 md:px-8 image-transition">
+    <div className="space-y-12 md:space-y-20 px-4 md:px-8 image-transition mb-16">
       {/* Intro Section */}
-      <div className="text-center space-y-4 md:space-y-6">
+      <div className="text-center space-y-4 md:space-y-6 ">
         <h1 className="text-5xl md:text-6xl font-extrabold text-accent-400">
           Welcome to HighEnd Wheels
         </h1>
@@ -22,8 +22,8 @@ export default function Page() {
       </div>
 
       {/* Content Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-8 items-center">
-        <div className="col-span-3 space-y-4">
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-10 items-center ">
+        <div className="col-span-3 space-y-6">
           <p className="text-lg text-gray-700 leading-relaxed">
             Welcome to HighEnd Wheels, where luxury meets performance. We
             specialize in providing the finest collection of high-performance
@@ -38,20 +38,20 @@ export default function Page() {
           </p>
         </div>
         <div className="col-span-2">
-          <div className="relative overflow-hidden rounded-lg shadow-lg transition-transform hover:scale-105">
+          <div className="relative overflow-hidden rounded-lg shadow-lg transition-transform hover:scale-105 hover:shadow-xl">
             <Image
               src={image1}
               alt="A hand holding car keys"
-              className="object-cover w-full h-80"
+              className="object-cover w-full h-80 "
             />
           </div>
         </div>
       </div>
 
       {/* Second Section */}
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-8 items-center">
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-10 items-center ">
         <div className="col-span-2 md:order-1 order-2">
-          <div className="relative overflow-hidden rounded-lg shadow-lg transition-transform hover:scale-105">
+          <div className=" relative overflow-hidden rounded-lg shadow-lg transition-transform hover:scale-105 ">
             <Image
               src={image2}
               alt="A view from the car salon"
@@ -59,7 +59,7 @@ export default function Page() {
             />
           </div>
         </div>
-        <div className="col-span-3 space-y-4 md:order-2 order-1 ">
+        <div className="col-span-3 space-y-6 md:order-2 order-1 ">
           <h2 className="text-4xl font-bold text-accent-400 md:order-1 sm:order-1">
             A Vision for the Future
           </h2>
@@ -70,9 +70,23 @@ export default function Page() {
           </p>
           <Link
             href="/cars"
-            className="inline-block bg-gradient-to-r from-accent-500 to-accent-600 px-6 py-3 text-white text-lg font-semibold rounded shadow-md hover:scale-105 transition-transform"
+            className="inline-flex items-center justify-center bg-gradient-to-r from-accent-500 to-accent-600 px-6 py-3 text-white text-lg font-semibold rounded shadow-lg hover:scale-105 transition-transform space-x-2 hover:shadow-xl "
           >
-            Explore our cars
+            <span>Explore our cars</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M5 12h14M12 5l7 7-7 7"
+              />
+            </svg>
           </Link>
         </div>
       </div>
