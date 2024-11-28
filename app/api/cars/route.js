@@ -3,14 +3,23 @@ import { getCars } from "@/app/_lib/data-service";
 // Путь к  data-service
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
-  const page = parseInt(searchParams.get("page")) || 1; // Номер страницы (по умолчанию 1)
-  const seating_capacity = searchParams.get("seating_capacity"); // Параметр фильтрации
+  const page = parseInt(searchParams.get("page")) || 1;
+  const seating_capacity = searchParams.get("seating_capacity");
 
-  const limit = 4; // Количество машин на странице
-  const offset = (page - 1) * limit; // Сдвиг
+  const limit = 4;
+  const offset = (page - 1) * limit;
 
   try {
-    let cars = await getCars("brand", limit, offset, seating_capacity); // Функция, которая извлекает машины с пагинацией
+    let cars = await getCars(
+      "brand",
+      limit,
+      offset,
+      seating_capacity === "roadster"
+        ? 2
+        : seating_capacity === "sedan"
+        ? 4
+        : null
+    );
 
     return new Response(JSON.stringify(cars), {
       status: 200,

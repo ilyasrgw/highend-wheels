@@ -5,7 +5,7 @@ import { unstable_noStore as noStore } from "next/cache";
 
 async function CarList({ filter }) {
   // noStore();
-  const initialсars = await getCars("brand", 4, 0, {});
+  const initialсars = await getCars("brand", 4, 0);
 
   let filteredcars;
   if (filter === "all") filteredcars = initialсars;

@@ -13,7 +13,7 @@ function CarCard({ car }) {
     seating_capacity,
     price_per_day,
     discount,
-    images: rawImages, // Переименовываем images на rawImages, чтобы избежать конфликта
+    images: rawImages,
   } = car;
 
   console.log("Car data:", car);
@@ -21,16 +21,15 @@ function CarCard({ car }) {
 
   const defaultImage = "/placeholder.jpg";
 
-  // Попытка парсить строку, если это не массив
   let images;
   try {
-    images = Array.isArray(rawImages) ? rawImages : JSON.parse(rawImages); // Парсим строку JSON
+    images = Array.isArray(rawImages) ? rawImages : JSON.parse(rawImages);
   } catch (error) {
     console.error("Error parsing JSON:", error);
-    images = [defaultImage]; // Используем дефолтное изображение в случае ошибки
+    images = [defaultImage];
   }
 
-  console.log("Parsed Images:", images); // Проверяем массив изображений
+  console.log("Parsed Images:", images);
 
   const carImages = images.length > 0 ? images : [defaultImage];
 

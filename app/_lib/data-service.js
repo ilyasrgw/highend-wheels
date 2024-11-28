@@ -40,15 +40,21 @@ export async function getCarPrice(id) {
 export const getCars = async function (
   orderBy = "brand",
   limit = 4,
-  offset = 0
+  offset = 0,
+  seating_capacity = null
 ) {
-  const { data, error } = await supabase
+  let query = supabase
     .from("cars")
     .select(
       "id, brand, model, seating_capacity, price_per_day, availability, description, discount, images"
     )
     .order(orderBy)
     .range(offset, offset + limit - 1);
+
+  if (seating_capacity) {
+    query = query.eq("seating_capacity", seating_capacity);
+  }
+  const { data, error } = await query;
 
   if (error) {
     console.error(error);
@@ -87,8 +93,8 @@ export async function getBooking(id) {
 
 export async function getBookings(userId) {
   const { data, error, count } = await supabase
-    .from("bookings")
-    // We actually also need data on the cabins as well. But let's ONLY take the data that we actually need, in order to reduce downloaded data.
+    .from("cars")
+    // We actually also need data on the cars as well. But let's ONLY take the data that we actually need, in order to reduce downloaded data.
     .select(
       "id, created_at, start_date, end_date,  num_of_passengers, price, user_id, car_id, cars(brand,model, images)"
     )
@@ -97,35 +103,36 @@ export async function getBookings(userId) {
 
   if (error) {
     console.error(error);
-    throw new Error("Bookings could not get loaded");
+    throw new Error("Cars could not get loaded");
   }
 
   return data;
 }
 
-export async function getBookedDatesByCabinId(cabinId) {
+export async function getBookedDatesByCarId(car_id) {
   let today = new Date();
   today.setUTCHours(0, 0, 0, 0);
   today = today.toISOString();
 
-  // Getting all bookings
+  // Getting all cars
   const { data, error } = await supabase
     .from("bookings")
-    .select("*")
-    .eq("cabinId", cabinId)
-    .or(`startDate.gte.${today},status.eq.checked-in`);
+    .select("start_date, end_date")
+    .eq("car_id", car_id)
+    .gte("start_date", today)
+    .or(`status.eq.checked-in`);
 
   if (error) {
     console.error(error);
-    throw new Error("Bookings could not get loaded");
+    throw new Error("Cars could not get loaded");
   }
 
   // Converting to actual dates to be displayed in the date picker
   const bookedDates = data
     .map((booking) => {
       return eachDayOfInterval({
-        start: new Date(booking.startDate),
-        end: new Date(booking.endDate),
+        start_date: new Date(booking.start_date),
+        end_date: new Date(booking.end_date),
       });
     })
     .flat();

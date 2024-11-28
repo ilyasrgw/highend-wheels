@@ -15,7 +15,7 @@ function ImageSlider({ images, brand, model }) {
   const handleThumbnailClick = (index) => setCurrentImageIndex(index);
 
   return (
-    <div className="w-3/4 mx-auto ">
+    <div className="w-2/3 mx-auto ">
       <div className="relative w-full h-[300px] md:h-[400px] ">
         {images.map((image, index) => (
           <Image
