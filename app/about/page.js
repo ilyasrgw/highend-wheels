@@ -59,7 +59,7 @@ export default function Page() {
             />
           </div>
         </div>
-        <div className="col-span-3 space-y-6 md:order-2 order-1 ">
+        <div className="col-span-3 space-y-16 md:order-2 order-1 ">
           <h2 className="text-4xl font-bold text-accent-400 md:order-1 sm:order-1">
             A Vision for the Future
           </h2>

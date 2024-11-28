@@ -1,7 +1,9 @@
 "use client";
 import { isWithinInterval } from "date-fns";
+import { useContext } from "react";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
+import { useReservation } from "./ReservationContext";
 
 function isAlreadyBooked(range, datesArr) {
   return (
@@ -13,28 +15,32 @@ function isAlreadyBooked(range, datesArr) {
   );
 }
 
-function DateSelector() {
-  // CHANGE
+function DateSelector({ settings, car, bookedDates }) {
+  const { range, setRange, resetRange } = useReservation();
+
   const price_per_day = 23;
   const discount = 23;
   const num_days = 2;
   const price = 23;
-  const range = { from: null, to: null };
 
   // SETTINGS
   const min_booking_length = 1;
   const max_booking_length = 4;
 
   return (
-    <div className="flex flex-col gap-4 w-full  max-w-2xl ">
+    <div className="flex flex-col justify-between gap-4 w-full  max-w-2xl ">
       <div className="place-self-center">
         <DayPicker
           mode="range"
+          onSelect={setRange}
+          selected={range}
           min={min_booking_length + 1}
           max={max_booking_length}
-          fromMonth={new Date()}
-          fromDate={new Date()}
-          toYear={new Date().getFullYear() + 5}
+          defaultMonth={new Date()} // Sets the initial month
+          disabled={{
+            before: new Date(), // Disables dates before today
+            after: new Date().setFullYear(new Date().getFullYear() + 5), // Disables dates 5 years from now
+          }}
           captionLayout="dropdown"
           numberOfMonths={2}
         />

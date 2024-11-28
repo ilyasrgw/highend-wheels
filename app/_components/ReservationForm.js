@@ -1,20 +1,15 @@
 "use client";
 import { useState } from "react";
+import { useReservation } from "./ReservationContext";
 
-// CHANGE
-const CarPassengerLimits = {
-  roadster: 2,
-  sedan: 5,
-};
+function ReservationForm({ car }) {
+  const { range } = useReservation();
+  const { seating_capacity } = car;
 
-function ReservationForm() {
-  const [carType, setCarType] = useState("");
-  const [maxPassengers, setMaxPassengers] = useState(0);
+  const [numPassengers, setNumPassengers] = useState("");
 
-  const handleCarTypeChange = (event) => {
-    const selectedType = event.target.value;
-    setCarType(selectedType);
-    setMaxPassengers(CarPassengerLimits[selectedType] || 0);
+  const handlePassengerChange = (e) => {
+    setNumPassengers(e.target.value);
   };
 
   return (
@@ -25,23 +20,6 @@ function ReservationForm() {
 
       <form className="bg-primary-900 py-6 px-4 md:py-8 md:px-12 text-lg flex flex-col gap-6 max-w-xl mx-auto">
         <div className="space-y-2">
-          <label htmlFor="carType" className="text-primary-50">
-            Select car type
-          </label>
-          <select
-            name="carType"
-            id="carType"
-            className="px-4 py-2 bg-primary-50 text-primary-800 w-full shadow-sm rounded-sm"
-            value={carType}
-            onChange={handleCarTypeChange}
-          >
-            <option value="">Select car type...</option>
-            <option value="roadster">Roadster</option>
-            <option value="sedan">Sedan</option>
-          </select>
-        </div>
-
-        <div className="space-y-2">
           <label htmlFor="numPassengers" className="text-primary-50">
             How many passengers?
           </label>
@@ -49,18 +27,17 @@ function ReservationForm() {
             name="numPassengers"
             id="numPassengers"
             className="px-4 py-2 bg-primary-50 text-primary-800 w-full shadow-sm rounded-sm"
-            disabled={!carType}
+            value={numPassengers}
+            onChange={handlePassengerChange}
           >
-            <option value="">
-              {carType
-                ? "Select number of passengers..."
-                : "Select car type first"}
-            </option>
-            {Array.from({ length: maxPassengers }, (_, i) => i + 1).map((x) => (
-              <option value={x} key={x}>
-                {x} {x === 1 ? "passenger" : "passengers"}
-              </option>
-            ))}
+            <option value="">Select number of passengers...</option>
+            {Array.from({ length: seating_capacity }, (_, i) => i + 1).map(
+              (x) => (
+                <option value={x} key={x}>
+                  {x} {x === 1 ? "passenger" : "passengers"}
+                </option>
+              )
+            )}
           </select>
         </div>
 
@@ -82,7 +59,7 @@ function ReservationForm() {
           </p>
           <button
             className="bg-accent-500 px-6 py-3 text-primary-800 font-semibold rounded hover:bg-accent-600 transition-all disabled:cursor-not-allowed disabled:bg-gray-500 disabled:text-gray-300"
-            disabled={!carType}
+            disabled={!numPassengers}
           >
             Reserve now
           </button>

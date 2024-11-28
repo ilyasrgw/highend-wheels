@@ -1,6 +1,5 @@
 import { getCars } from "@/app/_lib/data-service";
 
-// Путь к  data-service
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
   const page = parseInt(searchParams.get("page")) || 1;
