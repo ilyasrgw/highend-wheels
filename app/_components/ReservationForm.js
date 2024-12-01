@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useReservation } from "./ReservationContext";
 
-function ReservationForm({ car }) {
+function ReservationForm({ car, user }) {
   const { range } = useReservation();
   const { seating_capacity } = car;
 
@@ -16,9 +16,12 @@ function ReservationForm({ car }) {
     <div className="scale-[1.01]  mx-auto  px-4">
       <div className="bg-primary-900 text-primary-100 px-4 md:px-16  py-2 flex justify-between items-center overflow-hidden  ">
         <p>Logged in as</p>
+        <div className="flex gap-4 items-center">
+          <img className="h-8 rounded-full" src={user.image} alt={user.name} />
+        </div>
       </div>
 
-      <form className="bg-primary-900 py-6 px-4 md:py-8 md:px-12 text-lg flex flex-col gap-6 max-w-xl mx-auto">
+      <form className="bg-primary-900 py-6 px-4 md:py-8 md:px-12 text-lg flex flex-col gap-6  mx-auto ">
         <div className="space-y-2">
           <label htmlFor="numPassengers" className="text-primary-50">
             How many passengers?

@@ -65,7 +65,7 @@ export const getCars = async function (
 };
 
 // Guests are uniquely identified by their email address
-export async function getUsers(email) {
+export async function getUser(email) {
   const { data, error } = await supabase
     .from("users")
     .select("*")
@@ -91,14 +91,14 @@ export async function getBooking(id) {
   return data;
 }
 
-export async function getBookings(userId) {
+export async function getBookings(user_id) {
   const { data, error, count } = await supabase
-    .from("cars")
+    .from("bookings")
     // We actually also need data on the cars as well. But let's ONLY take the data that we actually need, in order to reduce downloaded data.
     .select(
       "id, created_at, start_date, end_date,  num_of_passengers, price, user_id, car_id, cars(brand,model, images)"
     )
-    .eq("user_id", userId)
+    .eq("user_id", user_id)
     .order("start_date");
 
   if (error) {
@@ -166,12 +166,12 @@ export async function getCountries() {
 /////////////
 // CREATE
 
-export async function createGuest(newGuest) {
-  const { data, error } = await supabase.from("guests").insert([newGuest]);
+export async function createUser(newUser) {
+  const { data, error } = await supabase.from("users").insert([newUser]);
 
   if (error) {
     console.error(error);
-    throw new Error("Guest could not be created");
+    throw new Error("User could not be created");
   }
 
   return data;
@@ -197,9 +197,9 @@ export async function createBooking(newBooking) {
 // UPDATE
 
 // The updatedFields is an object which should ONLY contain the updated data
-export async function updateGuest(id, updatedFields) {
+export async function updateUser(id, updatedFields) {
   const { data, error } = await supabase
-    .from("guests")
+    .from("users")
     .update(updatedFields)
     .eq("id", id)
     .select()
@@ -207,7 +207,7 @@ export async function updateGuest(id, updatedFields) {
 
   if (error) {
     console.error(error);
-    throw new Error("Guest could not be updated");
+    throw new Error("User could not be updated");
   }
   return data;
 }

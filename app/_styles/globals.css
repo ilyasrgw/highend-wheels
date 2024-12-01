@@ -43,6 +43,13 @@
   .image-transition {
     animation: fadeIn 0.3s ease-in-out;
   }
+
+  .btn-form {
+    @apply bg-primary-500 px-8 py-3 text-white font-medium rounded-md 
+           hover:bg-primary-600 transition-all 
+           focus:ring-2 focus:ring-primary-400 focus:outline-none 
+           disabled:cursor-not-allowed disabled:bg-gray-400 disabled:text-gray-300;
+  }
 }
 
 /* For data picker */

@@ -44,7 +44,7 @@ export default async function Page({ params }) {
   return (
     <>
       <Car car={car} />
-      <div className="w-full max-w-6xl mx-auto mt-2 flex flex-col items-center image-transition md:space-y-12 space-y-8 ">
+      <div className="w-full max-w-7xl mx-auto mt-2 flex flex-col items-center image-transition md:space-y-12 space-y-8 ">
         <div className="w-full px-4 ">
           <h2 className="text-2xl md:text-4xl font-semibold text-center mb-10 text-accent-500 ">
             Reserve {car.brand} today.
