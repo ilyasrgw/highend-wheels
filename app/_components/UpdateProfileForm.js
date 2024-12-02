@@ -1,8 +1,9 @@
 "use client";
 import Image from "next/image";
 import { useState } from "react";
-import { useFormStatus } from "react-dom";
+
 import { updateUser } from "../_lib/actions";
+import Button from "./Button";
 
 function UpdateProfileForm({ children, user }) {
   const [count, setCount] = useState();
@@ -65,18 +66,9 @@ function UpdateProfileForm({ children, user }) {
       </div>
 
       <div className="flex justify-end items-center gap-4 mt-4">
-        <Button />
+        <Button pendingLabel="Updating...">Update profile</Button>
       </div>
     </form>
-  );
-}
-
-function Button() {
-  const { pending } = useFormStatus();
-  return (
-    <button className="btn-form" disabled={pending}>
-      {pending ? "Updating..." : "Update profile"}
-    </button>
   );
 }
 

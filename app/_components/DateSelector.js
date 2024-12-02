@@ -1,5 +1,5 @@
 "use client";
-import { isWithinInterval } from "date-fns";
+import { differenceInDays, isSameDay, isWithinInterval } from "date-fns";
 import { useContext } from "react";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
@@ -18,14 +18,20 @@ function isAlreadyBooked(range, datesArr) {
 function DateSelector({ settings, car, bookedDates }) {
   const { range, setRange, resetRange } = useReservation();
 
-  const price_per_day = 23;
-  const discount = 23;
-  const num_days = 2;
-  const price = 23;
+  const displayRange = isAlreadyBooked(range, bookedDates) ? {} : range;
+
+  const { price_per_day, discount } = car;
+
+  const num_days =
+    displayRange.from && displayRange.to
+      ? differenceInDays(displayRange.to, displayRange.from)
+      : 0;
+
+  const price = num_days * (price_per_day - discount);
 
   // SETTINGS
-  const min_booking_length = 1;
-  const max_booking_length = 4;
+  const { min_booking_length, max_booking_length } = settings;
+  console.log(bookedDates);
 
   return (
     <div className="flex flex-col justify-between gap-4 w-full  max-w-2xl ">
@@ -33,16 +39,20 @@ function DateSelector({ settings, car, bookedDates }) {
         <DayPicker
           mode="range"
           onSelect={setRange}
-          selected={range}
+          selected={displayRange}
           min={min_booking_length + 1}
           max={max_booking_length}
           defaultMonth={new Date()} // Sets the initial month
-          disabled={{
-            before: new Date(), // Disables dates before today
-            after: new Date().setFullYear(new Date().getFullYear() + 5), // Disables dates 5 years from now
-          }}
+          disabled={[
+            {
+              before: new Date(), // Disables dates before today
+              after: new Date().setFullYear(new Date().getFullYear() + 5), // Disables dates 5 years from now
+            },
+            (date) =>
+              bookedDates.some((bookedDate) => isSameDay(date, bookedDate)),
+          ]}
           captionLayout="dropdown"
-          numberOfMonths={2}
+          numberOfMonths={1}
         />
       </div>
 

@@ -3,12 +3,9 @@ import ImageSlider from "./ImageSlider";
 
 function Car({ car }) {
   const {
-    id,
     brand,
     model,
     seating_capacity,
-    price_per_day,
-    discount,
     images: rawImages,
     description,
   } = car;

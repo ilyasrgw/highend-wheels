@@ -10,8 +10,9 @@ async function Reservation({ car }) {
     getSettings(),
     getBookedDatesByCarId(car.id),
   ]);
+
   const session = await getServerSession(authOptions);
-  console.log(session);
+  console.log(bookedDates);
 
   return (
     <div className="flex md:gap-12 flex-col lg:flex-row gap-4 w-full   ">

@@ -119,8 +119,8 @@ export async function getBookedDatesByCarId(car_id) {
     .from("bookings")
     .select("start_date, end_date")
     .eq("car_id", car_id)
-    .gte("start_date", today)
-    .or(`status.eq.checked-in`);
+    .gte("start_date", today);
+  // .or(`status.eq.checked-in`);
 
   if (error) {
     console.error(error);
@@ -131,8 +131,8 @@ export async function getBookedDatesByCarId(car_id) {
   const bookedDates = data
     .map((booking) => {
       return eachDayOfInterval({
-        start_date: new Date(booking.start_date),
-        end_date: new Date(booking.end_date),
+        start: new Date(booking.start_date),
+        end: new Date(booking.end_date),
       });
     })
     .flat();
@@ -177,21 +177,21 @@ export async function createUser(newUser) {
   return data;
 }
 
-export async function createBooking(newBooking) {
-  const { data, error } = await supabase
-    .from("bookings")
-    .insert([newBooking])
-    // So that the newly created object gets returned!
-    .select()
-    .single();
+// export async function createBooking(newBooking) {
+//   const { data, error } = await supabase
+//     .from("bookings")
+//     .insert([newBooking])
+//     // So that the newly created object gets returned!
+//     .select()
+//     .single();
 
-  if (error) {
-    console.error(error);
-    throw new Error("Booking could not be created");
-  }
+//   if (error) {
+//     console.error(error);
+//     throw new Error("Booking could not be created");
+//   }
 
-  return data;
-}
+//   return data;
+// }
 
 /////////////
 // UPDATE
