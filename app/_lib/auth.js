@@ -1,6 +1,5 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import { signIn } from "next-auth/react";
 import { createUser, getUser } from "./data-service";
 
 export const authOptions = {
@@ -21,7 +20,7 @@ export const authOptions = {
       }
       return token;
     },
-    async signIn({ user, account, profile }) {
+    async signIn({ user }) {
       try {
         const currentUser = await getUser(user.email);
         if (!currentUser)

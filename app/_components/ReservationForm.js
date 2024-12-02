@@ -1,10 +1,9 @@
 "use client";
-import { useState } from "react";
-import { useReservation } from "./ReservationContext";
-import { differenceInDays, formatDate } from "date-fns";
+import { differenceInDays } from "date-fns";
+import Image from "next/image";
 import { createBooking } from "../_lib/actions";
 import Button from "./Button";
-import Image from "next/image";
+import { useReservation } from "./ReservationContext";
 
 function ReservationForm({ car, user }) {
   const { range, resetRange } = useReservation();
