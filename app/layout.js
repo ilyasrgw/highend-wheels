@@ -11,6 +11,8 @@ import "@/app/_styles/globals.css";
 import Footer from "./_components/Footer";
 import Header from "./_components/Header";
 import { ReservationProvider } from "./_components/ReservationContext";
+import ChatBot from "./_components/ChatBot";
+import Tidio from "./_components/Tidio";
 
 export const metadata = {
   // title: "HighEnd Wheels",
@@ -35,6 +37,7 @@ export default function RootLayout({ children }) {
             <ReservationProvider>{children}</ReservationProvider>
           </main>
         </div>
+        <Tidio />
         <Footer />
       </body>
     </html>
